@@ -274,7 +274,7 @@ ChildProcess ChildProcess::spawn(const ProcessSpec &spec, const ChildStdioMap &s
         int status = 0;
         (void)::waitpid(pid, &status, 0);
         errno = child_errno;
-        throw_errno("execvp failed");
+        throw_errno("execvp or applting args failed");
     }
 
     return from_pid(pid);

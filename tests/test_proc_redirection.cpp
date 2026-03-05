@@ -1,6 +1,6 @@
-#include "prism/proc/child_process.hpp"
-#include "prism/proc/child_stdio.hpp"
-#include "prism/proc/process_spec.hpp"
+#include "prism/proc/child_proc.h"
+#include "prism/proc/child_stdio.h"
+#include "prism/proc/proc_spec.h"
 
 #include <cassert>
 #include <filesystem>

@@ -26,16 +26,16 @@ add_test(NAME test_proc_piped_cat COMMAND test_proc_piped_cat)
 # target_include_directories(test_proc_generic_cwd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 # add_test(NAME test_proc_generic_cwd COMMAND test_proc_generic_cwd)
 #
-# add_executable(test_proc_terminate
-#   test_proc_terminate.cpp
-# )
-# target_link_libraries(test_proc_terminate PRIVATE prism::proc)
-# target_include_directories(test_proc_terminate PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-# add_test(NAME test_proc_terminate COMMAND test_proc_terminate)
-#
-# add_executable(test_proc_spawn_fail
-#   test_proc_spawn_fail.cpp
-# )
-# target_link_libraries(test_proc_spawn_fail PRIVATE prism::proc)
-# target_include_directories(test_proc_spawn_fail PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-# add_test(NAME test_proc_spawn_fail COMMAND test_proc_spawn_fail)
+add_executable(test_proc_terminate
+  test_proc_terminate.cpp
+)
+target_link_libraries(test_proc_terminate PRIVATE prism::proc)
+target_include_directories(test_proc_terminate PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME test_proc_terminate COMMAND test_proc_terminate)
+
+add_executable(test_proc_spawn_fail
+  test_proc_spawn_fail.cpp
+)
+target_link_libraries(test_proc_spawn_fail PRIVATE prism::proc)
+target_include_directories(test_proc_spawn_fail PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME test_proc_spawn_fail COMMAND test_proc_spawn_fail)
