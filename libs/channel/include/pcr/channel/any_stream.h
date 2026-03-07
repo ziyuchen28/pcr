@@ -10,22 +10,24 @@
 
 namespace pcr::channel {
 
-// Move-only, type-erased DuplexStream wrapper with a small-buffer optimization (SBO).
+// move-only, type-erased DuplexStream wrapper with a small-buffer optimization (SBO)
 class AnyStream 
 {
 public:
     AnyStream() noexcept = default;
 
     AnyStream(const AnyStream&) = delete;
-    AnyStream& operator=(const AnyStream&) = delete;
+    AnyStream &operator=(const AnyStream&) = delete;
 
-    AnyStream(AnyStream&& other) noexcept {
+    AnyStream(AnyStream &&other) noexcept 
+    {
         if (other.vtbl_) {
             other.vtbl_->move(*this, other);
         }
     }
 
-    AnyStream& operator=(AnyStream&& other) noexcept {
+    AnyStream &operator=(AnyStream &&other) noexcept 
+    {
         if (this == &other) return *this;
         reset();
         if (other.vtbl_) {
@@ -95,7 +97,8 @@ public:
 private:
     static constexpr std::size_t kSboSize = 96;
 
-    struct VTable {
+    struct VTable 
+    {
         std::size_t (*read_some)(void*, void*, std::size_t);
         std::size_t (*write_some)(void*, const void*, std::size_t);
         void (*close_read)(void*);

@@ -14,6 +14,7 @@ endif()
 
 add_subdirectory(libs/proc)
 add_subdirectory(libs/channel)
+add_subdirectory(libs/framing)
 
 # Future libs:
 # add_subdirectory(libs/metrics)

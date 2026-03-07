@@ -1,5 +1,5 @@
 add_executable(test_proc_piped_cat
-    test_proc_piped_cat.cpp
+    proc/test_proc_piped_cat.cpp
 )
 target_link_libraries(test_proc_piped_cat PRIVATE pcr::proc)
 target_include_directories(test_proc_piped_cat PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -27,21 +27,21 @@ add_test(NAME test_proc_piped_cat COMMAND test_proc_piped_cat)
 # add_test(NAME test_proc_generic_cwd COMMAND test_proc_generic_cwd)
 #
 add_executable(test_proc_terminate
-  test_proc_terminate.cpp
+    proc/test_proc_terminate.cpp
 )
 target_link_libraries(test_proc_terminate PRIVATE pcr::proc)
 target_include_directories(test_proc_terminate PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 add_test(NAME test_proc_terminate COMMAND test_proc_terminate)
 
 add_executable(test_proc_spawn_fail
-  test_proc_spawn_fail.cpp
+    proc/test_proc_spawn_fail.cpp
 )
 target_link_libraries(test_proc_spawn_fail PRIVATE pcr::proc)
 target_include_directories(test_proc_spawn_fail PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 add_test(NAME test_proc_spawn_fail COMMAND test_proc_spawn_fail)
 
 add_executable(test_channel_proc_pipes
-  test_channel_proc_pipes.cpp
+    channel/test_channel_proc_pipes.cpp
 )
 target_link_libraries(test_channel_proc_pipes PRIVATE pcr::channel pcr::proc)
 target_include_directories(test_channel_proc_pipes PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -66,3 +66,23 @@ add_test(NAME test_channel_proc_pipes COMMAND test_channel_proc_pipes)
 # )
 # target_link_libraries(test_channel_invalid_fd PRIVATE prism::channel)
 # add_test(NAME test_channel_invalid_fd COMMAND test_channel_invalid_fd)
+
+# framing
+
+
+add_executable(test_framing_content_length_two_frames
+    framing/test_framing_content_length_two_frames.cpp
+)
+target_link_libraries(test_framing_content_length_two_frames PRIVATE pcr::framing)
+add_test(NAME test_framing_content_length_two_frames COMMAND test_framing_content_length_two_frames)
+
+
+add_executable(test_framing_content_length_pipes_two_frames
+    framing/test_framing_content_length_pipes_two_frames.cpp
+)
+target_link_libraries(test_framing_content_length_pipes_two_frames PRIVATE pcr::framing)
+add_test(NAME test_framing_content_length_pipes_two_frames COMMAND test_framing_content_length_pipes_two_frames)
+
+
+
+
