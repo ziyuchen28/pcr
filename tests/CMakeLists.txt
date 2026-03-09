@@ -67,7 +67,8 @@ add_test(NAME test_channel_proc_pipes COMMAND test_channel_proc_pipes)
 # target_link_libraries(test_channel_invalid_fd PRIVATE prism::channel)
 # add_test(NAME test_channel_invalid_fd COMMAND test_channel_invalid_fd)
 
-# framing
+
+# framing tests
 
 
 add_executable(test_framing_content_length_two_frames
@@ -85,4 +86,13 @@ add_test(NAME test_framing_content_length_pipes_two_frames COMMAND test_framing_
 
 
 
+
+
+# rpc tests
+
+add_executable(test_rpc_content_length_pipes_roundtrip    
+    rpc/test_rpc_content_length_pipes_roundtrip.cpp
+)
+target_link_libraries(test_rpc_content_length_pipes_roundtrip PRIVATE pcr::rpc_nlohmann)
+add_test(NAME test_rpc_content_length_pipes_roundtrip COMMAND test_rpc_content_length_pipes_roundtrip)
 

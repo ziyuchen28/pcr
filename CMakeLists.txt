@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(PCR_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "pcr root")
+
 if(PROJECT_IS_TOP_LEVEL)
     option(PCR_BUILD_TESTS "Build pcr tests" ON)
 else()
@@ -15,6 +17,7 @@ endif()
 add_subdirectory(libs/proc)
 add_subdirectory(libs/channel)
 add_subdirectory(libs/framing)
+add_subdirectory(libs/rpc)
 
 # Future libs:
 # add_subdirectory(libs/metrics)
