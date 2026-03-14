@@ -43,7 +43,7 @@ public:
     using RequestHandler = std::function<HandlerResult(const Request&)>;
     using NotificationHandler = std::function<void(const Notification&)>;
 
-    explicit Dispatcher(Peer peer, MetricsSink* metrics = nullptr);
+    explicit Dispatcher(Peer peer, MetricsSink *metrics = nullptr);
 
     // client side
     Id send_request(std::string method, std::optional<std::string> params_json = std::nullopt);
@@ -58,7 +58,7 @@ public:
     bool pump_once();
 
     // retrieve a response already received
-    std::optional<Response> take_response(const Id& id);
+    std::optional<Response> take_response(const Id &id);
 
 private:
     void handle_request(const Request &r);
