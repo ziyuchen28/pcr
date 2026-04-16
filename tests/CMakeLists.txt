@@ -49,22 +49,23 @@ add_test(NAME test_channel_proc_pipes COMMAND test_channel_proc_pipes)
 
 #
 #
-# add_executable(test_channel_socketpair
-#   test_channel_socketpair.cpp
-# )
-# target_link_libraries(test_channel_socketpair PRIVATE prism::channel)
-# add_test(NAME test_channel_socketpair COMMAND test_channel_socketpair)
-#
+add_executable(test_channel_socketpair
+  channel/test_channel_socketpair.cpp
+)
+target_link_libraries(test_channel_socketpair PRIVATE pcr::channel)
+target_include_directories(test_channel_socketpair PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME test_channel_socketpair COMMAND test_channel_socketpair)
+
 # add_executable(test_channel_read_exact
 #   test_channel_read_exact.cpp
 # )
-# target_link_libraries(test_channel_read_exact PRIVATE prism::channel)
+# target_link_libraries(test_channel_read_exact PRIVATE pcr::channel)
 # add_test(NAME test_channel_read_exact COMMAND test_channel_read_exact)
 #
 # add_executable(test_channel_invalid_fd
 #   test_channel_invalid_fd.cpp
 # )
-# target_link_libraries(test_channel_invalid_fd PRIVATE prism::channel)
+# target_link_libraries(test_channel_invalid_fd PRIVATE pcr::channel)
 # add_test(NAME test_channel_invalid_fd COMMAND test_channel_invalid_fd)
 
 

@@ -1,6 +1,6 @@
-#include "prism/channel/any_stream.hpp"
-#include "prism/channel/socket_stream.hpp"
-#include "prism/channel/stream.hpp"
+#include "pcr/channel/any_stream.h"
+#include "pcr/channel/socket_stream.h"
+#include "pcr/channel/stream.h"
 
 #include <cassert>
 #include <iostream>
@@ -8,8 +8,7 @@
 
 #include <sys/socket.h>
 
-int main() {
-    using namespace prism::channel;
+int main() { using namespace pcr::channel;
 
     int sv[2] = {-1, -1};
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sv) != 0) {

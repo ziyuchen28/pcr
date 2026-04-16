@@ -60,7 +60,7 @@ void write_all(W &w, const void *src, std::size_t n)
 }
 
 template <Writer W>
-inline void write_all(W &w, std::string_view sv) 
+void write_all(W &w, std::string_view sv) 
 {
     write_all(w, sv.data(), sv.size());
 }
@@ -86,3 +86,5 @@ std::string read_until_eof(R &r, std::size_t chunk_size = 4096)
 }
 
 } // namespace pcr::channel
+
+

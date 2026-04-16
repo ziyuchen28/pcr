@@ -15,18 +15,19 @@ namespace pcr::channel {
     throw std::runtime_error(std::string(prefix) + ": " + std::strerror(errno));
 }
 
-static void close_fd_if_open(int& fd) noexcept {
+static void close_fd_if_open(int &fd) noexcept 
+{
     if (fd >= 0) {
         ::close(fd);
         fd = -1;
     }
 }
 
-// Best-effort shutdown helper.
-static void shutdown_best_effort(int fd, int how) {
+static void shutdown_best_effort(int fd, int how) 
+{
     if (fd < 0) return;
     if (::shutdown(fd, how) != 0) {
-        // Common "ignore" errors: already shutdown, not connected, etc.
+        // ignore if already shut down
         if (errno == ENOTCONN || errno == EINVAL) {
             return;
         }
@@ -34,34 +35,37 @@ static void shutdown_best_effort(int fd, int how) {
     }
 }
 
-
 SocketStream::SocketStream(int fd, FdOwnership ownership)
     : fd_(fd),
-      owned_(ownership == FdOwnership::Owned) {
+      owned_(ownership == FdOwnership::Owned) 
+{
     if (fd_ < 0) {
         throw std::invalid_argument("SocketStream requires non-negative fd");
     }
 }
 
-SocketStream::~SocketStream() noexcept {
-    close_underlying_noexcept();
+SocketStream::~SocketStream() noexcept 
+{
+    close();
 }
 
-SocketStream::SocketStream(SocketStream&& other) noexcept
+SocketStream::SocketStream(SocketStream &&other) noexcept
     : fd_(other.fd_),
       owned_(other.owned_),
       read_open_(other.read_open_),
-      write_open_(other.write_open_) {
+      write_open_(other.write_open_) 
+{
     other.fd_ = -1;
     other.owned_ = false;
     other.read_open_ = false;
     other.write_open_ = false;
 }
 
-SocketStream& SocketStream::operator=(SocketStream&& other) noexcept {
+SocketStream &SocketStream::operator=(SocketStream &&other) noexcept 
+{
     if (this == &other) return *this;
 
-    close_underlying_noexcept();
+    close();
 
     fd_ = other.fd_;
     owned_ = other.owned_;
@@ -76,7 +80,8 @@ SocketStream& SocketStream::operator=(SocketStream&& other) noexcept {
     return *this;
 }
 
-std::size_t SocketStream::read_some(void* dst, std::size_t max_bytes) {
+std::size_t SocketStream::read_some(void *dst, std::size_t max_bytes) 
+{
     if (!read_open_ || fd_ < 0) {
         throw std::logic_error("SocketStream: read_some on closed read side");
     }
@@ -95,7 +100,8 @@ std::size_t SocketStream::read_some(void* dst, std::size_t max_bytes) {
     }
 }
 
-std::size_t SocketStream::write_some(const void* src, std::size_t max_bytes) {
+std::size_t SocketStream::write_some(const void *src, std::size_t max_bytes) 
+{
     if (!write_open_ || fd_ < 0) {
         throw std::logic_error("SocketStream: write_some on closed write side");
     }
@@ -106,6 +112,7 @@ std::size_t SocketStream::write_some(const void* src, std::size_t max_bytes) {
 
     for (;;) {
 #ifdef MSG_NOSIGNAL
+        // avoid SIGPIPE
         const ssize_t n = ::send(fd_, src, max_bytes, MSG_NOSIGNAL);
         if (n < 0) {
             if (errno == EINTR) continue;
@@ -123,27 +130,35 @@ std::size_t SocketStream::write_some(const void* src, std::size_t max_bytes) {
     }
 }
 
-void SocketStream::close_read() {
+void SocketStream::close_read() 
+{
     if (!read_open_) return;
     read_open_ = false;
-
-    if (!owned_) return;
-
-    shutdown_best_effort(fd_, SHUT_RD);
-    maybe_close_if_fully_closed_noexcept();
+    if (owned_) {
+        shutdown_best_effort(fd_, SHUT_RD);
+        // close early if both sides are marked closed to free up fd
+        if (fd_ >= 0 && !write_open_) {
+            close_fd_if_open(fd_);
+        }
+    }
 }
 
-void SocketStream::close_write() {
+void SocketStream::close_write() 
+{
     if (!write_open_) return;
     write_open_ = false;
 
-    if (!owned_) return;
-
-    shutdown_best_effort(fd_, SHUT_WR);
-    maybe_close_if_fully_closed_noexcept();
+    if (owned_) {
+        shutdown_best_effort(fd_, SHUT_WR);
+        // close early if both sides are marked closed free up fd
+        if (fd_ >= 0 && !read_open_) {
+            close_fd_if_open(fd_);
+        }
+    }
 }
 
-void SocketStream::close_underlying_noexcept() noexcept {
+void SocketStream::close() noexcept 
+{
     if (!owned_) {
         fd_ = -1;
         read_open_ = false;
@@ -156,14 +171,6 @@ void SocketStream::close_underlying_noexcept() noexcept {
     write_open_ = false;
 }
 
-void SocketStream::maybe_close_if_fully_closed_noexcept() noexcept {
-    if (!owned_) return;
-    if (fd_ < 0) return;
-
-    // If both sides are logically closed, close the fd early.
-    if (!read_open_ && !write_open_) {
-        close_fd_if_open(fd_);
-    }
-}
 
 } // namespace pcr::channel
+
