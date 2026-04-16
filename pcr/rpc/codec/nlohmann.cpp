@@ -1,8 +1,8 @@
-#include "pcr/rpc/codec/nlohmann.h"
+#include "nlohmann.h"
 
-#include "pcr/rpc/encode.h"
-#include "pcr/rpc/error.h"
-#include "pcr/rpc/id.h"
+#include "encode.h"
+#include "error.h"
+#include "id.h"
 
 #include <cstdint>
 #include <limits>

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "pcr/rpc/error.h"
-#include "pcr/rpc/id.h"
-#include "pcr/rpc/message.h"
-#include "pcr/rpc/metrics.h"
-#include "pcr/rpc/peer.h"
+#include "error.h"
+#include "id.h"
+#include "message.h"
+#include "metrics.h"
+#include "peer.h"
 
 #include <cstdint>
 #include <functional>

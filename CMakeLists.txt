@@ -22,7 +22,7 @@ endif()
 add_subdirectory(pcr/proc)
 add_subdirectory(pcr/stream)
 add_subdirectory(pcr/framing)
-add_subdirectory(libs/rpc)
+add_subdirectory(pcr/rpc)
 
 if(PCR_BUILD_TESTS)
   enable_testing()

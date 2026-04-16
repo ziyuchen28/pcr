@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pcr/rpc/message.h"
+#include "message.h"
 
 #include <concepts>
 #include <string>

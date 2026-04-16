@@ -1,6 +1,6 @@
-#include "pcr/rpc/dispatcher.h"
-#include "pcr/rpc/peer.h"
-#include "pcr/rpc/codec/nlohmann.h"
+#include "dispatcher.h"
+#include "peer.h"
+#include "nlohmann.h"
 
 #include "content_length_framer.h"
 #include "any_framer.h"

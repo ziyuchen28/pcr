@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pcr/rpc/codec.h"
+#include "codec.h"
 
 #include <cstddef>
 #include <new>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pcr/rpc/error.h"
-#include "pcr/rpc/id.h"
+#include "error.h"
+#include "id.h"
 
 #include <optional>
 #include <string>
