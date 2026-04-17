@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 struct Error 
 {
@@ -13,11 +13,11 @@ struct Error
 };
 
 
-// Standard JSON-RPC codes
+// standard JSON-RPC codes
 inline constexpr int kParseError     = -32700;
 inline constexpr int kInvalidRequest = -32600;
 inline constexpr int kMethodNotFound = -32601;
 inline constexpr int kInvalidParams  = -32602;
 inline constexpr int kInternalError  = -32603;
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

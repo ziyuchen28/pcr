@@ -89,11 +89,11 @@ add_test(NAME test_framing_content_length_pipes_two_frames COMMAND test_framing_
 
 
 
-# rpc tests
+# jsonrpc tests
 
-add_executable(test_rpc_content_length_pipes_roundtrip    
-    rpc/test_rpc_content_length_pipes_roundtrip.cpp
+add_executable(test_jsonrpc_content_length_pipes_roundtrip    
+    jsonrpc/test_jsonrpc_content_length_pipes_roundtrip.cpp
 )
-target_link_libraries(test_rpc_content_length_pipes_roundtrip PRIVATE pcr::rpc_nlohmann)
-add_test(NAME test_rpc_content_length_pipes_roundtrip COMMAND test_rpc_content_length_pipes_roundtrip)
+target_link_libraries(test_jsonrpc_content_length_pipes_roundtrip PRIVATE pcr::jsonrpc_nlohmann)
+add_test(NAME test_jsonrpc_content_length_pipes_roundtrip COMMAND test_jsonrpc_content_length_pipes_roundtrip)
 

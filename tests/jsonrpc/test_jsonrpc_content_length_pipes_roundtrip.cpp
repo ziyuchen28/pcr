@@ -1,6 +1,6 @@
-#include "pcr/rpc/dispatcher.h"
-#include "pcr/rpc/peer.h"
-#include "pcr/rpc/codec/nlohmann.h"
+#include "pcr/jsonrpc/dispatcher.h"
+#include "pcr/jsonrpc/peer.h"
+#include "pcr/jsonrpc/codec/nlohmann.h"
 
 #include "pcr/framing/content_length_framer.h"
 #include "pcr/framing/any_framer.h"
@@ -70,28 +70,28 @@ int main()
     )};
 
     // Build peers
-    rpc::Peer client(
+    jsonrpc::Peer client(
         framing::AnyFramer{framing::ContentLengthFramer(A)},
-        rpc::AnyCodec{rpc::NlohmannCodec{}}
+        jsonrpc::AnyCodec{jsonrpc::NlohmannCodec{}}
     );
 
-    rpc::Peer server(
+    jsonrpc::Peer server(
         framing::AnyFramer{framing::ContentLengthFramer(B)},
-        rpc::AnyCodec{rpc::NlohmannCodec{}}
+        jsonrpc::AnyCodec{jsonrpc::NlohmannCodec{}}
     );
 
-    rpc::Dispatcher cdisp(std::move(client));
-    rpc::Dispatcher sdisp(std::move(server));
+    jsonrpc::Dispatcher cdisp(std::move(client));
+    jsonrpc::Dispatcher sdisp(std::move(server));
 
     // Echo params back as result
-    sdisp.on_request("echo", [](const rpc::Request &req) {
-        return rpc::HandlerResult::ok(req.params_json.value_or("null"));
+    sdisp.on_request("echo", [](const jsonrpc::Request &req) {
+        return jsonrpc::HandlerResult::ok(req.params_json.value_or("null"));
     });
 
     // Create params JSON string using nlohmann helper
-    const std::string params = rpc::json_dump(nlohmann::json{{"msg","hi"},{"n",7}});
+    const std::string params = jsonrpc::json_dump(nlohmann::json{{"msg","hi"},{"n",7}});
 
-    const rpc::Id id = cdisp.send_request("echo", params);
+    const jsonrpc::Id id = cdisp.send_request("echo", params);
 
     // Server handles request -> sends response
     assert(sdisp.pump_once());

@@ -1,10 +1,10 @@
-#include "pcr/rpc/dispatcher.h"
+#include "pcr/jsonrpc/dispatcher.h"
 
-#include "pcr/rpc/clock.h"
+#include "pcr/jsonrpc/clock.h"
 
 #include <utility>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 
 Dispatcher::Dispatcher(Peer peer, MetricsSink* metrics)
@@ -163,7 +163,7 @@ void Dispatcher::send_error(const Id &id, Error e)
     metric_counter(metrics_, Metric::ResponsesSent, 1);
 }
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc
 
 
 

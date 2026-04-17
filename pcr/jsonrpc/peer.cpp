@@ -1,9 +1,9 @@
-#include "pcr/rpc/peer.h"
-#include "pcr/rpc/clock.h"
+#include "pcr/jsonrpc/peer.h"
+#include "pcr/jsonrpc/clock.h"
 
 #include <utility>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 
 Peer::Peer(pcr::framing::AnyFramer framer, AnyCodec codec, MetricsSink *metrics)
@@ -45,4 +45,4 @@ void Peer::write(const Message &msg)
     metric_counter(metrics_, Metric::BytesOut, payload.size());
 }
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

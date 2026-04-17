@@ -1,12 +1,12 @@
-#include "pcr/rpc/encode.h"
+#include "pcr/jsonrpc/encode.h"
 
-#include "pcr/rpc/id.h"
+#include "pcr/jsonrpc/id.h"
 
 #include <charconv>
 #include <stdexcept>
 #include <string_view>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
     
 namespace {
@@ -149,4 +149,4 @@ std::string encode_message_json(const Message &msg)
     return out;
 }
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

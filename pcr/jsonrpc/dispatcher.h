@@ -13,7 +13,7 @@
 #include <unordered_map>
 
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 
 struct HandlerResult 
@@ -78,7 +78,7 @@ private:
     std::unordered_map<Id, Response, IdHash> responses_;
 };
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc
 
 
 

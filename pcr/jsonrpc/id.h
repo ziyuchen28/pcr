@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 struct Id 
 {
@@ -14,7 +14,7 @@ struct Id
     };
 
     Kind kind = Kind::Null;
-    // rpc allows neg integer 
+    // jsonrpc allows neg integer 
     std::int64_t i = 0;
     std::string s;
 
@@ -75,4 +75,4 @@ struct IdHash
     }
 };
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

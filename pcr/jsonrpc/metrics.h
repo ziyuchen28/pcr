@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 
 // prefer "C-like" hooks: 
@@ -54,4 +54,4 @@ inline void metric_timing(MetricsSink *s, Metric m, std::uint64_t ns) noexcept
 }
 
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

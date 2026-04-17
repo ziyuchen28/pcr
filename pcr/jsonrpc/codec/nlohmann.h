@@ -1,12 +1,12 @@
 #pragma once
 
-#include "pcr/rpc/message.h"
+#include "pcr/jsonrpc/message.h"
 
 #include <nlohmann/json.hpp>
 
 #include <string>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 // helper for handlers/tests: build raw JSON value text easily
 inline std::string json_dump(const nlohmann::json &j) 
@@ -24,4 +24,4 @@ public:
     std::string encode(const Message &msg);
 };
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

@@ -1,16 +1,16 @@
 
 # core
-add_library(pcr_rpc_core
+add_library(pcr_jsonrpc_core
   encode.cpp
   peer.cpp
   dispatcher.cpp
 )
-add_library(pcr::rpc_core ALIAS pcr_rpc_core)
+add_library(pcr::jsonrpc_core ALIAS pcr_jsonrpc_core)
 
-target_include_directories(pcr_rpc_core PUBLIC ${PCR_ROOT_DIR})
-target_compile_features(pcr_rpc_core PUBLIC cxx_std_20)
-target_compile_options(pcr_rpc_core PRIVATE -Wall -Wextra -Wpedantic)
-target_link_libraries(pcr_rpc_core PUBLIC pcr::framing)
+target_include_directories(pcr_jsonrpc_core PUBLIC ${PCR_ROOT_DIR})
+target_compile_features(pcr_jsonrpc_core PUBLIC cxx_std_20)
+target_compile_options(pcr_jsonrpc_core PRIVATE -Wall -Wextra -Wpedantic)
+target_link_libraries(pcr_jsonrpc_core PUBLIC pcr::framing)
 
 
 # nlohmann 
@@ -44,26 +44,26 @@ endif()
 
 # nlohmann backed codec 
 
-add_library(pcr_rpc_codec_nlohmann
+add_library(pcr_jsonrpc_codec_nlohmann
     codec/nlohmann.cpp
 )
-add_library(pcr::rpc_codec_nlohmann ALIAS pcr_rpc_codec_nlohmann)
-target_include_directories(pcr_rpc_codec_nlohmann PUBLIC
+add_library(pcr::jsonrpc_codec_nlohmann ALIAS pcr_jsonrpc_codec_nlohmann)
+target_include_directories(pcr_jsonrpc_codec_nlohmann PUBLIC
     ${PCR_ROOT_DIR}
 )
-target_compile_features(pcr_rpc_codec_nlohmann PUBLIC cxx_std_20)
-target_compile_options(pcr_rpc_codec_nlohmann PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_features(pcr_jsonrpc_codec_nlohmann PUBLIC cxx_std_20)
+target_compile_options(pcr_jsonrpc_codec_nlohmann PRIVATE -Wall -Wextra -Wpedantic)
 
-target_link_libraries(pcr_rpc_codec_nlohmann
+target_link_libraries(pcr_jsonrpc_codec_nlohmann
     PUBLIC
-        pcr::rpc_core
+        pcr::jsonrpc_core
         nlohmann_json::nlohmann_json
 )
 
 # wrapper interface
-add_library(pcr_rpc_nlohmann INTERFACE)
-add_library(pcr::rpc_nlohmann ALIAS pcr_rpc_nlohmann)
-target_link_libraries(pcr_rpc_nlohmann INTERFACE
-    pcr::rpc_core
-    pcr::rpc_codec_nlohmann
+add_library(pcr_jsonrpc_nlohmann INTERFACE)
+add_library(pcr::jsonrpc_nlohmann ALIAS pcr_jsonrpc_nlohmann)
+target_link_libraries(pcr_jsonrpc_nlohmann INTERFACE
+    pcr::jsonrpc_core
+    pcr::jsonrpc_codec_nlohmann
 )

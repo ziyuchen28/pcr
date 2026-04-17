@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <ctime>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 // Monotonic clock in ns.
 inline std::uint64_t now_ns() noexcept {
@@ -13,4 +13,4 @@ inline std::uint64_t now_ns() noexcept {
            static_cast<std::uint64_t>(ts.tv_nsec);
 }
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

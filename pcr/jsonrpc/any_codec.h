@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pcr/rpc/codec.h"
+#include "pcr/jsonrpc/codec.h"
 
 #include <cstddef>
 #include <new>
@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 // Move-only type-erased Codec with SBO.
 class AnyCodec {
@@ -162,4 +162,4 @@ private:
     alignas(std::max_align_t) unsigned char storage_[kSboSize] = {};
 };
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

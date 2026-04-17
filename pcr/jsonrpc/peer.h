@@ -1,13 +1,13 @@
 #pragma once
 
 #include "pcr/framing/any_framer.h"
-#include "pcr/rpc/any_codec.h"
-#include "pcr/rpc/metrics.h"
-#include "pcr/rpc/message.h"
+#include "pcr/jsonrpc/any_codec.h"
+#include "pcr/jsonrpc/metrics.h"
+#include "pcr/jsonrpc/message.h"
 
 #include <optional>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 class Peer 
 {
@@ -27,4 +27,4 @@ private:
     MetricsSink *metrics_;
 };
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc

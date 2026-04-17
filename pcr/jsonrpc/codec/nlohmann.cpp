@@ -1,15 +1,15 @@
-#include "pcr/rpc/codec/nlohmann.h"
+#include "pcr/jsonrpc/codec/nlohmann.h"
 
-#include "pcr/rpc/encode.h"
-#include "pcr/rpc/error.h"
-#include "pcr/rpc/id.h"
+#include "pcr/jsonrpc/encode.h"
+#include "pcr/jsonrpc/error.h"
+#include "pcr/jsonrpc/id.h"
 
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
 #include <string>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
 constexpr const char *k_json_rpc = "jsonrpc";
 constexpr const char *k_json_rpc_ver = "2.0";
@@ -144,7 +144,7 @@ std::string NlohmannCodec::encode(const Message &msg)
     return encode_message_json(msg);
 }
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc
 
 
 

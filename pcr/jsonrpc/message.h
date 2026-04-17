@@ -1,15 +1,15 @@
 #pragma once
 
-#include "pcr/rpc/error.h"
-#include "pcr/rpc/id.h"
+#include "pcr/jsonrpc/error.h"
+#include "pcr/jsonrpc/id.h"
 
 #include <optional>
 #include <string>
 #include <variant>
 
-namespace pcr::rpc {
+namespace pcr::jsonrpc {
 
-// params/result are stored as raw JSON text (value), so rpc_core stays JSON-library-free
+// params/result are stored as raw JSON text (value)
 struct Request 
 {
     Id id;
@@ -35,4 +35,4 @@ struct Response
 
 using Message = std::variant<Request, Notification, Response>;
 
-} // namespace pcr::rpc
+} // namespace pcr::jsonrpc
