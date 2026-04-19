@@ -105,7 +105,7 @@ void StdioJsonRpcSession::notify(
 
 void StdioJsonRpcSession::on_request(
     std::string method, 
-    RequestHandler handler)
+    pcr::jsonrpc::Dispatcher::RequestHandler handler)
 {
     impl_->rpc.on_request(std::move(method), std::move(handler));
 }
@@ -113,7 +113,7 @@ void StdioJsonRpcSession::on_request(
 
 void StdioJsonRpcSession::on_notification(
     std::string method,
-    NotificationHandler handler)
+    pcr::jsonrpc::Dispatcher::NotificationHandler handler)
 {
     impl_->rpc.on_notification(std::move(method), std::move(handler));
 }

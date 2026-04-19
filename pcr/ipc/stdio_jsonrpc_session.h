@@ -20,9 +20,6 @@ class StdioJsonRpcSession
 public:
     static StdioJsonRpcSession spawn(const StdioJsonRpcLaunchConfig &cfg);
 
-    using RequestHandler = pcr::jsonrpc::Dispatcher::RequestHandler;
-    using NotificationHandler = pcr::jsonrpc::Dispatcher::NotificationHandler;
-
     StdioJsonRpcSession(StdioJsonRpcSession&&) noexcept;
     StdioJsonRpcSession &operator=(StdioJsonRpcSession&&) noexcept;
     ~StdioJsonRpcSession();
@@ -42,8 +39,8 @@ public:
         std::optional<std::string> params_json = std::nullopt);
 
     // incoming server->client traffic handlers
-    void on_request(std::string method, RequestHandler handler);
-    void on_notification(std::string method, NotificationHandler handler);
+    void on_request(std::string method, pcr::jsonrpc::Dispatcher::RequestHandler handler);
+    void on_notification(std::string method, pcr::jsonrpc::Dispatcher::NotificationHandler handler);
 
     // session lifecycle
     void close();
