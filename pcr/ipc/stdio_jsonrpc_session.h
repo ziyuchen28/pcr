@@ -1,69 +1,60 @@
 #pragma once
 
-#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
 
-#include <pcr/proc/piped_child.h>
-#include <pcr/proc/proc_spec.h>
-#include <pcr/jsonrpc/dispatcher.h>
-#include <pcr/jsonrpc/id.h>
-#include <pcr/jsonrpc/message.h>
+#include "pcr/jsonrpc/dispatcher.h"
 
 namespace pcr::ipc {
 
-using RequestHandler =
-    std::function<pcr::jsonrpc::HandlerResult(const pcr::jsonrpc::Request&)>;
+struct StdioJsonRpcLaunchConfig
+{
+    std::string exe;
+    std::vector<std::string> args;
+    std::optional<std::string> cwd;
+};
 
-using NotificationHandler =
-    std::function<void(const pcr::jsonrpc::Notification&)>;
-
-// Recommended path:
-//   auto s = pcr::ipc::spawn_stdio_jsonrpc(spec);
-//
-// Expert path:
-//   auto s = pcr::ipc::StdioJsonRpcSession::attach(std::move(child));
-class StdioJsonRpcSession {
+class StdioJsonRpcSession
+{
 public:
-    static StdioJsonRpcSession attach(pcr::proc::PipedChild child);
+    static StdioJsonRpcSession spawn(const StdioJsonRpcLaunchConfig &cfg);
+
+    using RequestHandler = pcr::jsonrpc::Dispatcher::RequestHandler;
+    using NotificationHandler = pcr::jsonrpc::Dispatcher::NotificationHandler;
 
     StdioJsonRpcSession(StdioJsonRpcSession&&) noexcept;
-    StdioJsonRpcSession& operator=(StdioJsonRpcSession&&) noexcept;
+    StdioJsonRpcSession &operator=(StdioJsonRpcSession&&) noexcept;
     ~StdioJsonRpcSession();
 
     StdioJsonRpcSession(const StdioJsonRpcSession&) = delete;
-    StdioJsonRpcSession& operator=(const StdioJsonRpcSession&) = delete;
+    StdioJsonRpcSession &operator=(const StdioJsonRpcSession&) = delete;
 
-    pcr::jsonrpc::Id send_request(std::string method,
-                              std::optional<std::string> params_json = std::nullopt);
+    // blocking request/response 
+    // throws on JSON-RPC error response or EOF
+    std::string request(
+        std::string method,
+        std::optional<std::string> params_json = std::nullopt);
 
-    void send_notification(std::string method,
-                           std::optional<std::string> params_json = std::nullopt);
+    // fire-and-forget notification
+    void notify(
+        std::string method,
+        std::optional<std::string> params_json = std::nullopt);
 
+    // incoming server->client traffic handlers
     void on_request(std::string method, RequestHandler handler);
     void on_notification(std::string method, NotificationHandler handler);
 
-    bool pump_once();
-    std::optional<pcr::jsonrpc::Response> take_response(const pcr::jsonrpc::Id& id);
-
-    pcr::jsonrpc::Response request(std::string method,
-                               std::optional<std::string> params_json = std::nullopt);
-
-    std::string request_json(std::string method,
-                             std::optional<std::string> params_json = std::nullopt,
-                             const char* error_prefix = "JSON-RPC request failed");
-
-    void close_stdin();
-    int stderr_read_fd() const noexcept;
-    pcr::proc::WaitResult wait();
+    // session lifecycle
+    void close();
+    void wait();
 
 private:
     struct Impl;
-    explicit StdioJsonRpcSession(std::unique_ptr<Impl> impl);
+    explicit StdioJsonRpcSession(std::unique_ptr<Impl> impl) noexcept;
     std::unique_ptr<Impl> impl_;
 };
 
-StdioJsonRpcSession spawn_stdio_jsonrpc(pcr::proc::ProcessSpec spec);
+// StdioJsonRpcSession spawn_stdio_jsonrpc(const StdioJsonRpcLaunchConfig &config);
 
 } // namespace pcr::ipc

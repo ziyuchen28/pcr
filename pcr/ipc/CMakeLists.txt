@@ -1,11 +1,16 @@
 
 
-add_library(pcr_ipc child_ipc_posix.cpp)
-add_library(pcr::ipc ALIAS pcr_ipc)
+add_library(pcr_ipc_stdio_jsonrpc stdio_jsonrpc_session.cpp)
+add_library(pcr::ipc_stdio_jsonrpc ALIAS pcr_ipc_stdio_jsonrpc)
 
-target_include_directories(pcr_ipc PUBLIC ${PCR_ROOT_DIR})
+target_include_directories(pcr_ipc_stdio_jsonrpc PUBLIC ${PCR_ROOT_DIR})
 
-target_compile_features(pcr_ipc PUBLIC cxx_std_20)
-target_compile_options(pcr_ipc PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_features(pcr_ipc_stdio_jsonrpc PUBLIC cxx_std_20)
+target_compile_options(pcr_ipc_stdio_jsonrpc PRIVATE -Wall -Wextra -Wpedantic)
 
-
+target_link_libraries(pcr_ipc_stdio_jsonrpc
+    PRIVATE
+        pcr::proc
+    PUBLIC
+        pcr::jsonrpc
+)

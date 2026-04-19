@@ -31,18 +31,18 @@ int main()
     auto child = proc::PipedChild::spawn(spec);
 
     // Borrow the pipe fds; PipedChild owns and closes them.
-    channel::PipeDuplex ch(
+    stream::PipeDuplex ch(
         child.stdout_read_fd(),
         child.stdin_write_fd(),
-        channel::FdOwnership::Borrowed,
-        channel::FdOwnership::Borrowed
+        stream::FdOwnership::Borrowed,
+        stream::FdOwnership::Borrowed
     );
 
     const std::string payload =
-        "hello from pcr::channel PipeDuplex over proc pipes\n"
+        "hello from pcr::stream PipeDuplex over proc pipes\n"
         "round-trip through cat\n";
 
-    channel::write_all(ch, payload);
+    stream::write_all(ch, payload);
 
     // Borrowed: this does not close underlying write fd.
     ch.close_write();
@@ -50,7 +50,7 @@ int main()
     // Actual EOF for cat:
     child.close_stdin_write();
 
-    const std::string out = channel::read_until_eof(ch);
+    const std::string out = stream::read_until_eof(ch);
     const std::string err = read_all_fd(child.stderr_read_fd());
     const proc::WaitResult wr = child.wait();
 
@@ -59,6 +59,6 @@ int main()
     assert(wr.exited);
     assert(wr.exit_code == 0);
 
-    std::cout << "test_channel_proc_pipes: ok\n";
+    std::cout << "test_stream_proc_pipes: ok\n";
     return 0;
 }

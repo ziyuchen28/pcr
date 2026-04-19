@@ -5,7 +5,7 @@
 #include <cstddef>
 
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 
 class PipeReader 
@@ -90,4 +90,4 @@ private:
     PipeWriter writer_;
 };
 
-} // namespace pcr::channel
+} // namespace pcr::stream

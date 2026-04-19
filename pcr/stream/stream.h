@@ -6,7 +6,7 @@
 #include <string>
 #include <string_view>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 // read_some returns 0 on EOF
 template <class R>
@@ -85,6 +85,6 @@ std::string read_until_eof(R &r, std::size_t chunk_size = 4096)
     return out;
 }
 
-} // namespace pcr::channel
+} // namespace pcr::stream
 
 

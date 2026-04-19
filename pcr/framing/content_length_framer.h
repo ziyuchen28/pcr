@@ -22,12 +22,12 @@ namespace pcr::framing
 class ContentLengthFramer 
 {
 public:
-    explicit ContentLengthFramer(pcr::channel::AnyStream &io,
+    explicit ContentLengthFramer(pcr::stream::AnyStream &io,
                                  std::size_t max_header_bytes,
                                  std::size_t max_body_bytes,
                                  FrameStats *stats = nullptr);
 
-    explicit ContentLengthFramer(pcr::channel::AnyStream &io,
+    explicit ContentLengthFramer(pcr::stream::AnyStream &io,
                                  FrameStats *stats = nullptr);
 
     std::optional<std::string> read_frame();
@@ -45,7 +45,7 @@ public:
     }
 
 private:
-    pcr::channel::AnyStream *io_;
+    pcr::stream::AnyStream *io_;
     std::string buf_;
     std::size_t max_header_bytes_ = 64 * 1024;
     std::size_t max_body_bytes_ = 64 * 1024 * 1024;

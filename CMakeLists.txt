@@ -23,6 +23,7 @@ add_subdirectory(pcr/proc)
 add_subdirectory(pcr/stream)
 add_subdirectory(pcr/framing)
 add_subdirectory(pcr/jsonrpc)
+add_subdirectory(pcr/ipc)
 
 if(PCR_BUILD_TESTS)
   enable_testing()

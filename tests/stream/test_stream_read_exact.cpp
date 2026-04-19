@@ -8,7 +8,7 @@
 #include <sys/socket.h>
 
 int main() {
-    using namespace pcr::channel;
+    using namespace pcr::stream;
 
     int sv[2] = {-1, -1};
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sv) != 0) {
@@ -28,6 +28,6 @@ int main() {
     assert(n == payload.size());
     assert(std::string(buf, n) == payload);
 
-    std::cout << "test_channel_read_exact: ok\n";
+    std::cout << "test_stream_read_exact: ok\n";
     return 0;
 }

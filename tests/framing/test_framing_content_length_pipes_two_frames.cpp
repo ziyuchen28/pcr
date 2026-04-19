@@ -63,26 +63,26 @@ int main()
 {
     using namespace pcr;
 
-    // Two unidirectional pipes = full duplex channel (like stdio of a child process)
+    // Two unidirectional pipes = full duplex stream (like stdio of a child process)
     UniqueFd a_to_b_r, a_to_b_w;
     UniqueFd b_to_a_r, b_to_a_w;
     make_pipe(a_to_b_r, a_to_b_w);
     make_pipe(b_to_a_r, b_to_a_w);
 
     // Endpoint A: reads from B→A, writes to A→B
-    channel::AnyStream A{channel::PipeDuplex(
+    stream::AnyStream A{stream::PipeDuplex(
         b_to_a_r.release(),
         a_to_b_w.release(),
-        channel::FdOwnership::Owned,
-        channel::FdOwnership::Owned
+        stream::FdOwnership::Owned,
+        stream::FdOwnership::Owned
     )};
 
     // Endpoint B: reads from A→B, writes to B→A
-    channel::AnyStream B{channel::PipeDuplex(
+    stream::AnyStream B{stream::PipeDuplex(
         a_to_b_r.release(),
         b_to_a_w.release(),
-        channel::FdOwnership::Owned,
-        channel::FdOwnership::Owned
+        stream::FdOwnership::Owned,
+        stream::FdOwnership::Owned
     )};
 
     framing::ContentLengthFramer fw(A);

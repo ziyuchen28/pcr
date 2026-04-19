@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 int main() {
-    using namespace pcr::channel;
+    using namespace pcr::stream;
 
     bool threw = false;
     try {
@@ -26,6 +26,6 @@ int main() {
     }
     assert(threw);
 
-    std::cout << "test_channel_invalid_fd: ok\n";
+    std::cout << "test_stream_invalid_fd: ok\n";
     return 0;
 }

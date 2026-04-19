@@ -7,10 +7,18 @@
 namespace pcr::jsonrpc {
 
 
-Dispatcher::Dispatcher(Peer peer, MetricsSink* metrics)
+Dispatcher::Dispatcher(Peer peer, MetricsSink *metrics)
     : peer_(std::move(peer)),
       metrics_(metrics) 
-{}
+{
+}
+
+
+Dispatcher::Dispatcher(pcr::framing::AnyFramer framer, MetricsSink *metrics)
+    : peer_(Peer(std::move(framer), metrics)),
+      metrics_(metrics)
+{
+}
 
 
 Id Dispatcher::send_request(std::string method, std::optional<std::string> params_json) 
@@ -102,7 +110,7 @@ void Dispatcher::handle_request(const Request &r)
     HandlerResult hr;
     try {
         hr = it->second(r);
-    } catch (const std::exception& ex) {
+    } catch (const std::exception &ex) {
         Error e;
         e.code = kInternalError;
         e.message = std::string("Handler exception: ") + ex.what();

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 enum class FdOwnership 
 {
@@ -8,4 +8,4 @@ enum class FdOwnership
     Owned,
 };
 
-} // namespace pcr::channel
+} // namespace pcr::stream

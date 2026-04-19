@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 enum class FdOwnership 
 {
@@ -68,4 +68,4 @@ private:
     bool write_open_ = true;
 };
 
-} // namespace pcr::channel
+} // namespace pcr::stream

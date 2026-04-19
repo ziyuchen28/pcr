@@ -8,13 +8,13 @@
 
 #include <sys/socket.h>
 
-static void write_u32_be(pcr::channel::AnyStream& s, std::uint32_t v) {
+static void write_u32_be(pcr::stream::AnyStream& s, std::uint32_t v) {
     unsigned char b[4];
     b[0] = static_cast<unsigned char>((v >> 24) & 0xFF);
     b[1] = static_cast<unsigned char>((v >> 16) & 0xFF);
     b[2] = static_cast<unsigned char>((v >>  8) & 0xFF);
     b[3] = static_cast<unsigned char>((v >>  0) & 0xFF);
-    pcr::channel::write_all(s, b, 4);
+    pcr::stream::write_all(s, b, 4);
 }
 
 int main() {
@@ -25,8 +25,8 @@ int main() {
         throw std::runtime_error("socketpair failed");
     }
 
-    channel::AnyStream writer{channel::SocketStream(sv[0], channel::FdOwnership::Owned)};
-    channel::AnyStream reader{channel::SocketStream(sv[1], channel::FdOwnership::Owned)};
+    stream::AnyStream writer{stream::SocketStream(sv[0], stream::FdOwnership::Owned)};
+    stream::AnyStream reader{stream::SocketStream(sv[1], stream::FdOwnership::Owned)};
 
     framing::LengthPrefixFramer fr(reader, /*max_body_bytes=*/8);
 

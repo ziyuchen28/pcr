@@ -25,7 +25,7 @@ namespace pcr::framing {
 class LengthPrefixFramer 
 {
 public:
-    explicit LengthPrefixFramer(pcr::channel::AnyStream &io,
+    explicit LengthPrefixFramer(pcr::stream::AnyStream &io,
                                 std::size_t max_body_bytes = 64ULL * 1024ULL * 1024ULL,
                                 FrameStats *stats = nullptr);
 
@@ -41,7 +41,7 @@ public:
     }
 
 private:
-    pcr::channel::AnyStream *io_;
+    pcr::stream::AnyStream *io_;
     std::size_t max_body_bytes_;
     FrameStats *stats_;
 };

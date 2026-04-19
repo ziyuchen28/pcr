@@ -16,8 +16,8 @@ int main() {
         throw std::runtime_error("socketpair failed");
     }
 
-    channel::AnyStream writer{channel::SocketStream(sv[0], channel::FdOwnership::Owned)};
-    channel::AnyStream reader{channel::SocketStream(sv[1], channel::FdOwnership::Owned)};
+    stream::AnyStream writer{stream::SocketStream(sv[0], stream::FdOwnership::Owned)};
+    stream::AnyStream reader{stream::SocketStream(sv[1], stream::FdOwnership::Owned)};
 
     framing::LengthPrefixFramer fw(writer);
     framing::LengthPrefixFramer fr(reader);

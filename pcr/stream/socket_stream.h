@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 /* duplex stream socket wrapper (works for AF_UNIX SOCK_STREAM, TCP, etc.)
  - close_read/close_write perform shutdown(SHUT_RD/SHUT_WR) when owned
@@ -40,6 +40,6 @@ private:
     bool write_open_ = true;
 };
 
-} // namespace pcr::channel
+} // namespace pcr::stream
 
 

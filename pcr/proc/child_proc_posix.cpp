@@ -390,8 +390,11 @@ PipedChild PipedChild::from_raw(ChildProcess proc,
 
 PipedChild PipedChild::spawn(const ProcessSpec &spec) 
 {
+    // child listens on it's stdin
     PipePair stdin_pipe = make_pipe();
+    // child writes to it's stdout
     PipePair stdout_pipe = make_pipe();
+    // child writes to it's stderr
     PipePair stderr_pipe = make_pipe();
 
     try {

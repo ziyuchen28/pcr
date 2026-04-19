@@ -21,9 +21,9 @@ struct UniqueFd
     explicit UniqueFd(int f = -1) : fd(f) {}
     ~UniqueFd() { if (fd >= 0) ::close(fd); }
     UniqueFd(const UniqueFd&) = delete;
-    UniqueFd& operator=(const UniqueFd&) = delete;
-    UniqueFd(UniqueFd&& o) noexcept : fd(o.fd) { o.fd = -1; }
-    UniqueFd& operator=(UniqueFd&& o) noexcept {
+    UniqueFd &operator=(const UniqueFd&) = delete;
+    UniqueFd(UniqueFd &&o) noexcept : fd(o.fd) { o.fd = -1; }
+    UniqueFd& operator=(UniqueFd &&o) noexcept {
         if (this == &o) return *this;
         if (fd >= 0) ::close(fd);
         fd = o.fd; o.fd = -1;
@@ -54,30 +54,22 @@ int main()
     make_pipe(a_to_b_r, a_to_b_w);
     make_pipe(b_to_a_r, b_to_a_w);
 
-    channel::AnyStream A{channel::PipeDuplex(
+    stream::AnyStream A{stream::PipeDuplex(
         b_to_a_r.release(),
         a_to_b_w.release(),
-        channel::FdOwnership::Owned,
-        channel::FdOwnership::Owned
+        stream::FdOwnership::Owned,
+        stream::FdOwnership::Owned
     )};
 
-    channel::AnyStream B{channel::PipeDuplex(
+    stream::AnyStream B{stream::PipeDuplex(
         a_to_b_r.release(),
         b_to_a_w.release(),
-        channel::FdOwnership::Owned,
-        channel::FdOwnership::Owned
+        stream::FdOwnership::Owned,
+        stream::FdOwnership::Owned
     )};
 
-    jsonrpc::Peer client(
-        framing::AnyFramer{framing::ContentLengthFramer(A)}
-    );
-
-    jsonrpc::Peer server(
-        framing::AnyFramer{framing::ContentLengthFramer(B)}
-    );
-
-    jsonrpc::Dispatcher cdisp(std::move(client));
-    jsonrpc::Dispatcher sdisp(std::move(server));
+    jsonrpc::Dispatcher cdisp(framing::AnyFramer{framing::ContentLengthFramer(A)});
+    jsonrpc::Dispatcher sdisp(framing::AnyFramer{framing::ContentLengthFramer(B)});
 
     // Echo params back as result
     sdisp.on_request("echo", [](const jsonrpc::Request &req) {

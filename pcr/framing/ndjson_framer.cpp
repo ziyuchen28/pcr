@@ -5,7 +5,7 @@
 namespace pcr::framing {
 
 
-NdjsonFramer::NdjsonFramer(pcr::channel::AnyStream &io,
+NdjsonFramer::NdjsonFramer(pcr::stream::AnyStream &io,
                            std::size_t max_line_bytes,
                            FrameStats *stats)
     : io_(&io), max_line_bytes_(max_line_bytes), stats_(stats) {}
@@ -57,8 +57,8 @@ std::optional<std::string> NdjsonFramer::read_frame()
 
 void NdjsonFramer::write_frame(std::string_view line) 
 {
-    pcr::channel::write_all(*io_, line);
-    pcr::channel::write_all(*io_, "\n", 1);
+    pcr::stream::write_all(*io_, line);
+    pcr::stream::write_all(*io_, "\n", 1);
 
     if (stats_) {
         stats_->bytes_written += line.size() + 1;

@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 [[noreturn]] static void throw_errno(std::string_view prefix) {
     throw std::runtime_error(std::string(prefix) + ": " + std::strerror(errno));
@@ -172,5 +172,5 @@ void SocketStream::close() noexcept
 }
 
 
-} // namespace pcr::channel
+} // namespace pcr::stream
 

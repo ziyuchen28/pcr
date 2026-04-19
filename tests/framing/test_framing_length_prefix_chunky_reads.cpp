@@ -12,11 +12,11 @@
 
 namespace {
 struct ChunkyDuplex {
-    pcr::channel::SocketStream inner;
+    pcr::stream::SocketStream inner;
     std::size_t cap;
 
     ChunkyDuplex(int fd, std::size_t cap_)
-        : inner(fd, pcr::channel::FdOwnership::Owned), cap(cap_) {}
+        : inner(fd, pcr::stream::FdOwnership::Owned), cap(cap_) {}
 
     ChunkyDuplex(ChunkyDuplex&&) noexcept = default;
     ChunkyDuplex& operator=(ChunkyDuplex&&) noexcept = default;
@@ -43,8 +43,8 @@ int main() {
         throw std::runtime_error("socketpair failed");
     }
 
-    channel::AnyStream writer{channel::SocketStream(sv[0], channel::FdOwnership::Owned)};
-    channel::AnyStream reader{ChunkyDuplex(sv[1], 2)}; // cap reads to 2 bytes
+    stream::AnyStream writer{stream::SocketStream(sv[0], stream::FdOwnership::Owned)};
+    stream::AnyStream reader{ChunkyDuplex(sv[1], 2)}; // cap reads to 2 bytes
 
     framing::LengthPrefixFramer fw(writer);
     framing::LengthPrefixFramer fr(reader);

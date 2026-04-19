@@ -8,7 +8,7 @@
 
 #include <unistd.h>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 [[noreturn]] static void throw_errno(std::string_view prefix) 
 {
@@ -238,4 +238,4 @@ void PipeDuplex::close_write()
     writer_.close_write();
 }
 
-} // namespace pcr::channel
+} // namespace pcr::stream

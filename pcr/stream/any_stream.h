@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 
 // with (SBO) optimization
@@ -215,5 +215,5 @@ private:
     alignas(std::max_align_t) unsigned char storage_[k_sbo_size] = {};
 };
 
-} // namespace pcr::channel
+} // namespace pcr::stream
 

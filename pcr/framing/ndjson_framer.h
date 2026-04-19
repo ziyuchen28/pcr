@@ -16,7 +16,7 @@ namespace pcr::framing
 class NdjsonFramer 
 {
 public:
-    explicit NdjsonFramer(pcr::channel::AnyStream &io,
+    explicit NdjsonFramer(pcr::stream::AnyStream &io,
                           std::size_t max_line_bytes = 8 * 1024 * 1024,
                           FrameStats *stats = nullptr);
 
@@ -32,7 +32,7 @@ public:
     }
 
 private:
-    pcr::channel::AnyStream *io_;
+    pcr::stream::AnyStream *io_;
     std::size_t max_line_bytes_;
     FrameStats *stats_;
     std::string buf_;

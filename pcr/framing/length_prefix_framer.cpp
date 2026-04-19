@@ -25,7 +25,7 @@ static std::uint32_t decode_u32_be(const unsigned char in[4]) {
 
 } // namespace
 
-LengthPrefixFramer::LengthPrefixFramer(pcr::channel::AnyStream& io,
+LengthPrefixFramer::LengthPrefixFramer(pcr::stream::AnyStream& io,
                                        std::size_t max_body_bytes,
                                        FrameStats *stats)
     : io_(&io), max_body_bytes_(max_body_bytes), stats_(stats) {}
@@ -34,7 +34,7 @@ std::optional<std::string> LengthPrefixFramer::read_frame() {
     unsigned char prefix[kPrefixBytes] = {0, 0, 0, 0};
 
     // Read exactly 4 bytes for prefix.
-    const std::size_t got_prefix = pcr::channel::read_exact(*io_, prefix, kPrefixBytes);
+    const std::size_t got_prefix = pcr::stream::read_exact(*io_, prefix, kPrefixBytes);
 
     if (stats_) {
         stats_->bytes_read += got_prefix;
@@ -64,7 +64,7 @@ std::optional<std::string> LengthPrefixFramer::read_frame() {
     out.resize(len);
 
     if (len > 0) {
-        const std::size_t got_body = pcr::channel::read_exact(*io_, out.data(), len);
+        const std::size_t got_body = pcr::stream::read_exact(*io_, out.data(), len);
 
         if (stats_) {
             stats_->bytes_read += got_body;
@@ -90,9 +90,9 @@ void LengthPrefixFramer::write_frame(std::string_view payload) {
     unsigned char prefix[kPrefixBytes];
     encode_u32_be(static_cast<std::uint32_t>(payload.size()), prefix);
 
-    pcr::channel::write_all(*io_, prefix, kPrefixBytes);
+    pcr::stream::write_all(*io_, prefix, kPrefixBytes);
     if (!payload.empty()) {
-        pcr::channel::write_all(*io_, payload);
+        pcr::stream::write_all(*io_, payload);
     }
 
     if (stats_) {

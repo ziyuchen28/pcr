@@ -1,8 +1,7 @@
-#include "ndjson_framer.h"
+#include "pcr/framing/ndjson_framer.h"
 
-#include "any_stream.h"
-#include "socket_stream.h"
-#include "stream.h"
+#include "pcr/stream/any_stream.h"
+#include "pcr/stream/socket_stream.h"
 
 #include <cassert>
 #include <iostream>
@@ -17,8 +16,8 @@ int main() {
         throw std::runtime_error("socketpair failed");
     }
 
-    channel::AnyStream writer{channel::SocketStream(sv[0], channel::FdOwnership::Owned)};
-    channel::AnyStream reader{channel::SocketStream(sv[1], channel::FdOwnership::Owned)};
+    stream::AnyStream writer{stream::SocketStream(sv[0], stream::FdOwnership::Owned)};
+    stream::AnyStream reader{stream::SocketStream(sv[1], stream::FdOwnership::Owned)};
 
     framing::NdjsonFramer fw(writer);
     framing::NdjsonFramer fr(reader);

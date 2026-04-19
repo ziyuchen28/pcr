@@ -76,7 +76,7 @@ static std::size_t parse_content_length(std::string_view header_block)
 }
 
 
-ContentLengthFramer::ContentLengthFramer(pcr::channel::AnyStream &io,
+ContentLengthFramer::ContentLengthFramer(pcr::stream::AnyStream &io,
                                          std::size_t max_header,
                                          std::size_t max_body,
                                          FrameStats *stats)
@@ -87,7 +87,7 @@ ContentLengthFramer::ContentLengthFramer(pcr::channel::AnyStream &io,
 {}
 
 
-ContentLengthFramer::ContentLengthFramer(pcr::channel::AnyStream &io,
+ContentLengthFramer::ContentLengthFramer(pcr::stream::AnyStream &io,
                                          FrameStats *stats)
     : io_(&io), 
       stats_(stats) 
@@ -189,8 +189,8 @@ void ContentLengthFramer::write_frame(std::string_view payload)
 
     const std::size_t hdr_len = static_cast<std::size_t>(p - hdr);
 
-    pcr::channel::write_all(*io_, hdr, hdr_len);
-    pcr::channel::write_all(*io_, payload);
+    pcr::stream::write_all(*io_, hdr, hdr_len);
+    pcr::stream::write_all(*io_, payload);
 
     if (stats_) {
         stats_->bytes_written += hdr_len + payload.size();

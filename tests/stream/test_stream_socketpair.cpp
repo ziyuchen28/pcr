@@ -8,7 +8,7 @@
 
 #include <sys/socket.h>
 
-int main() { using namespace pcr::channel;
+int main() { using namespace pcr::stream;
 
     int sv[2] = {-1, -1};
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sv) != 0) {
@@ -33,6 +33,6 @@ int main() { using namespace pcr::channel;
     const std::string got_ack = read_until_eof(a);
     assert(got_ack == ack);
 
-    std::cout << "test_channel_socketpair: ok\n";
+    std::cout << "test_stream_socketpair: ok\n";
     return 0;
 }

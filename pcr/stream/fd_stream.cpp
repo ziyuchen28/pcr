@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-namespace pcr::channel {
+namespace pcr::stream {
 
 
 [[noreturn]] static void throw_errno(std::string_view prefix) 
@@ -246,4 +246,4 @@ void FdStream::maybe_close_same_fd_if_fully_closed_noexcept() noexcept
     }
 }
 
-} // namespace pcr::channel
+} // namespace pcr::stream
