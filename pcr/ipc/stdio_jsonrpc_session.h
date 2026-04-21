@@ -48,6 +48,7 @@ public:
     void wait();
     bool wait_for(std::chrono::milliseconds timeout);
     void terminate();
+    void kill();
 
 private:
     struct Impl;

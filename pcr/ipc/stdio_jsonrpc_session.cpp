@@ -142,6 +142,11 @@ void StdioJsonRpcSession::terminate()
     impl_->child.terminate(SIGTERM);
 }
 
+void StdioJsonRpcSession::kill()
+{
+    impl_->child.terminate(SIGKILL);
+}
+
 
 StdioJsonRpcSession StdioJsonRpcSession::spawn(const StdioJsonRpcLaunchConfig &config)
 {

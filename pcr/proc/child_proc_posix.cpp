@@ -204,10 +204,7 @@ int read_exec_status_or_success(int fd)
 
 
 
-// 
-// ChildProcess
-// 
-
+/* ChildProcess */ 
 
 // only destroys the handle
 ChildProcess::~ChildProcess() 
@@ -301,7 +298,6 @@ ChildProcess ChildProcess::spawn(const ProcessSpec &spec, const ChildStdioMap &s
 void ChildProcess::terminate(int signal_number) 
 {
     if (pid_ <= 0) return;
-
     if (::kill(pid_, signal_number) != 0) {
         if (errno != ESRCH) {
             throw_errno("kill failed");
@@ -384,9 +380,7 @@ void ChildProcess::reap_if_dead() noexcept
 }
 
 
-// 
-// PipedChild
-// 
+/* PipedChild */ 
 
 PipedChild::~PipedChild() {
     close_fds();
