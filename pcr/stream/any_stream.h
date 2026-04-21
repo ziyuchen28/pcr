@@ -42,14 +42,16 @@ public:
     }
 
     template <class S>
-    requires DuplexStream<S> && std::is_nothrow_move_constructible_v<S>
+    // requires DuplexStream<S> && std::is_nothrow_move_constructible_v<S>
+    requires DuplexStream<S>
     AnyStream(S s) 
     {
         emplace<S>(std::move(s));
     }
 
     template <class S, class ...Args>
-    requires DuplexStream<S> && std::is_nothrow_move_constructible_v<S>
+    // requires DuplexStream<S> && std::is_nothrow_move_constructible_v<S>
+    requires DuplexStream<S>
     S &emplace(Args &&...args) 
     {
         reset();
