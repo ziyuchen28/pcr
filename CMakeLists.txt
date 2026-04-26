@@ -19,11 +19,15 @@ endif()
 # add_subdirectory(libs/framing)
 # add_subdirectory(libs/rpc)
 
+
 add_subdirectory(pcr/proc)
+
+if(NOT WIN32)
 add_subdirectory(pcr/stream)
 add_subdirectory(pcr/framing)
 add_subdirectory(pcr/jsonrpc)
 add_subdirectory(pcr/ipc)
+endif()
 
 if(PCR_BUILD_TESTS)
   enable_testing()

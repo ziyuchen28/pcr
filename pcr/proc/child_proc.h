@@ -10,6 +10,11 @@
 
 namespace pcr::proc {
 
+#ifdef _WIN32
+using ProcessId = unsigned long;
+#else
+using ProcessId = pid_t;
+#endif
 
 struct WaitResult 
 {
@@ -37,7 +42,7 @@ public:
     // hence prefer named constructor over constructor for overload extensibility 
     static ChildProcess spawn(const ProcessSpec &spec, const ChildStdioMap &stdio);
 
-    pid_t pid() const noexcept { 
+    ProcessId pid() const noexcept { 
         return pid_; 
     }
 
@@ -47,10 +52,14 @@ public:
     std::optional<WaitResult> wait_for(std::chrono::milliseconds timeout);
 
 private:
-    static ChildProcess from_pid(pid_t pid) noexcept;
+    static ChildProcess from_pid(ProcessId pid) noexcept;
     void reap_if_dead() noexcept;
 
-    pid_t pid_ = -1;
+    ProcessId pid_ = -1;
+#ifdef _WIN32
+    void *process_handle_ = nullptr;
+#endif
+
 };
 
 } // namespace pcr::proc
