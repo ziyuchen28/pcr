@@ -2,13 +2,44 @@
 
 # shared
 
-
 add_executable(test_framing_content_length_pipes_two_frames
   framing/test_framing_content_length_pipes_two_frames.cpp
 )
 target_link_libraries(test_framing_content_length_pipes_two_frames PRIVATE pcr::framing)
 add_test(NAME test_framing_content_length_pipes_two_frames COMMAND test_framing_content_length_pipes_two_frames)
 
+
+add_executable(test_jsonrpc_content_length_pipes    
+  jsonrpc/test_jsonrpc_content_length_pipes.cpp
+)
+target_link_libraries(test_jsonrpc_content_length_pipes PRIVATE pcr::jsonrpc)
+add_test(NAME test_jsonrpc_content_length_pipes COMMAND test_jsonrpc_content_length_pipes)
+
+
+# ipc integ test
+add_executable(pcr_test_stdio_jsonrpc_server
+  ipc/test_stdio_jsonrpc_server.cpp
+)
+target_link_libraries(pcr_test_stdio_jsonrpc_server
+  PRIVATE
+    pcr::jsonrpc
+    pcr::framing
+    pcr::stream
+)
+
+add_executable(test_stdio_jsonrpc_session
+  ipc/test_stdio_jsonrpc_session.cpp
+)
+target_link_libraries(test_stdio_jsonrpc_session
+  PRIVATE pcr::ipc_stdio_jsonrpc
+)
+target_compile_definitions(test_stdio_jsonrpc_session
+  PRIVATE
+    TEST_STDIO_JSONRPC_SERVER="$<TARGET_FILE:pcr_test_stdio_jsonrpc_server>"
+)
+add_test(NAME test_stdio_jsonrpc_session
+    COMMAND test_stdio_jsonrpc_session
+)
 
 
 if(WIN32)
@@ -36,7 +67,6 @@ if(WIN32)
     target_link_libraries(test_stream_pipe_win PRIVATE pcr::stream pcr::proc)
     target_include_directories(test_stream_pipe_win PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
     add_test(NAME test_stream_pipe_win COMMAND test_stream_pipe_win)
-
 
     # WIN
 
@@ -119,52 +149,10 @@ else()
 
 
     add_executable(test_framing_content_length_two_frames
-        framing/test_framing_content_length_two_frames.cpp
+      framing/test_framing_content_length_two_frames.cpp
     )
     target_link_libraries(test_framing_content_length_two_frames PRIVATE pcr::framing)
     add_test(NAME test_framing_content_length_two_frames COMMAND test_framing_content_length_two_frames)
-
-
-
-
-    # jsonrpc tests
-
-    add_executable(test_jsonrpc_content_length_pipes_roundtrip    
-        jsonrpc/test_jsonrpc_content_length_pipes_roundtrip.cpp
-    )
-    target_link_libraries(test_jsonrpc_content_length_pipes_roundtrip PRIVATE pcr::jsonrpc)
-    add_test(NAME test_jsonrpc_content_length_pipes_roundtrip COMMAND test_jsonrpc_content_length_pipes_roundtrip)
-
-
-
-    # ipc integ test
-    add_executable(pcr_test_stdio_jsonrpc_server
-        ipc/test_stdio_jsonrpc_server.cpp
-    )
-    target_link_libraries(pcr_test_stdio_jsonrpc_server
-        PRIVATE
-            pcr::jsonrpc
-            pcr::framing
-            pcr::stream
-    )
-
-    add_executable(test_stdio_jsonrpc_session
-        ipc/test_stdio_jsonrpc_session.cpp
-    )
-
-    target_link_libraries(test_stdio_jsonrpc_session
-        PRIVATE
-            pcr::ipc_stdio_jsonrpc
-    )
-
-    target_compile_definitions(test_stdio_jsonrpc_session
-        PRIVATE
-            TEST_STDIO_JSONRPC_SERVER="$<TARGET_FILE:pcr_test_stdio_jsonrpc_server>"
-    )
-
-    add_test(NAME test_stdio_jsonrpc_session
-        COMMAND test_stdio_jsonrpc_session
-    )
 
 
 

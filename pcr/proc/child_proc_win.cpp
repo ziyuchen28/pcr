@@ -393,12 +393,10 @@ ChildProcess ChildProcess::spawn(const ProcessSpec &spec, const ChildStdioMap &s
         TO_NATIVE(stderr_h));
 }
 
-void ChildProcess::terminate(int /*signal_number*/)
+void ChildProcess::terminate(int)
 {
     if (!process_handle_) return;
-
-    // Windows has no SIGTERM/SIGKILL distinction here.
-    // TerminateProcess is the low-level forceful stop.
+    // bypass crt and directly call raw kernel api
     if (!::TerminateProcess(reinterpret_cast<HANDLE>(process_handle_), 1)) {
         throw_win32("TerminateProcess failed");
     }
@@ -662,6 +660,13 @@ void PipedChild::close_fds() noexcept
         parent_read_stderr_ = -1;
     }
 }
+
+
+void PipedChild::terminate(int signal_number)
+{
+    process_.terminate(signal_number);
+}
+
 
 } // namespace pcr::proc
 

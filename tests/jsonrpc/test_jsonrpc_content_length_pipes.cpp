@@ -10,7 +10,12 @@
 #include <iostream>
 #include <stdexcept>
 
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#else
 #include <unistd.h>
+#endif
 
 
 static void make_pipe(int &r, int &w) 

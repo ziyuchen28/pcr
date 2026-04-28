@@ -144,10 +144,12 @@ void StdioJsonRpcSession::terminate()
 
 void StdioJsonRpcSession::kill()
 {
+#ifdef _WIN32
+    impl_->child.terminate(SIGTERM);
+#else
     impl_->child.terminate(SIGKILL);
+#endif
 }
-
-
 StdioJsonRpcSession StdioJsonRpcSession::spawn(const StdioJsonRpcLaunchConfig &config)
 {
     return StdioJsonRpcSession(
