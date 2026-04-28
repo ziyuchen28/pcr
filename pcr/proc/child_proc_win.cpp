@@ -285,20 +285,6 @@ ChildProcess &ChildProcess::operator=(ChildProcess &&other) noexcept
 }
 
 
-// ChildProcess from_process_info(PROCESS_INFORMATION pi) noexcept
-// {
-//     ChildProcess out;
-//     out.process_handle_ = pi.hProcess;
-//     out.pid_ = pi.dwProcessId;
-//     // ChildProcess out = ChildProcess::from_handle(pi.hProcess, pi.dwProcessId);
-//     if (pi.hThread) {
-//         ::CloseHandle(pi.hThread);
-//     }
-//     return out;
-// }
-//
-
-
 #define TO_NATIVE(h) reinterpret_cast<pcr::proc::NativeHandle>(h)
 #define FROM_NATIVE(h) reinterpret_cast<HANDLE>(h)
 
@@ -521,16 +507,6 @@ PipedChild PipedChild::from_raw(
     out.parent_read_stderr_ = parent_read_stderr;
     return out;
 }
-
-
-// ChildProcess ChildProcess::from_handle(void* process_handle, ProcessId pid) noexcept
-// {
-//     ChildProcess out;
-//     out.process_handle_ = process_handle;
-//     out.pid_ = pid;
-//     return out;
-// }
-//
 
 
 PipedChild PipedChild::spawn(const ProcessSpec &spec)
