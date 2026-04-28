@@ -27,7 +27,7 @@ PipePair make_pipe()
 {
     int fds[2] = {-1, -1};
 
-    // Binary mode avoids CRLF translation surprises.
+    // binary mode to avoid CRLF translation
     if (::_pipe(fds, 4096, _O_BINARY) != 0) {
         throw std::runtime_error("_pipe failed");
     }

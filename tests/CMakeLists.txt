@@ -2,6 +2,12 @@
 
 # shared
 
+add_executable(test_framing_content_length_two_frames
+    framing/test_framing_content_length_two_frames.cpp
+)
+target_link_libraries(test_framing_content_length_two_frames PRIVATE pcr::framing)
+add_test(NAME test_framing_content_length_two_frames COMMAND test_framing_content_length_two_frames)
+
 
 if(WIN32)
 
@@ -109,12 +115,6 @@ else()
 
     # framing tests
 
-
-    add_executable(test_framing_content_length_two_frames
-        framing/test_framing_content_length_two_frames.cpp
-    )
-    target_link_libraries(test_framing_content_length_two_frames PRIVATE pcr::framing)
-    add_test(NAME test_framing_content_length_two_frames COMMAND test_framing_content_length_two_frames)
 
 
     add_executable(test_framing_content_length_pipes_two_frames
