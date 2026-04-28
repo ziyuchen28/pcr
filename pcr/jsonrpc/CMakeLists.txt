@@ -40,10 +40,14 @@ add_library(pcr::jsonrpc ALIAS pcr_jsonrpc)
 
 target_include_directories(pcr_jsonrpc PUBLIC ${PCR_ROOT_DIR})
 target_compile_features(pcr_jsonrpc PUBLIC cxx_std_20)
-target_compile_options(pcr_jsonrpc PRIVATE -Wall -Wextra -Wpedantic)
+if(MSVC)
+  target_compile_options(pcr_jsonrpc PRIVATE /W4 /permissive-)
+else()
+  target_compile_options(pcr_jsonrpc PRIVATE -Wall -Wextra -Wpedantic)
+endif()
 target_link_libraries(pcr_jsonrpc 
-    PUBLIC pcr::framing
-    PRIVATE nlohmann_json::nlohmann_json
+  PUBLIC pcr::framing
+  PRIVATE nlohmann_json::nlohmann_json
 )
 
 
