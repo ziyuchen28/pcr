@@ -1,4 +1,4 @@
-#include "pcr/ipc/stdio_jsonrpc_session.h"
+#include "pcr/ipc/stdio_jsonrpc_transport.h"
 
 #include <stdexcept>
 #include <utility>
@@ -32,7 +32,7 @@ pcr::proc::ProcessSpec to_process_spec(const StdioJsonRpcLaunchConfig &config)
 } // namespace
 
 
-struct StdioJsonRpcSession::Impl
+struct StdioJsonRpcTransport::Impl
 {
     pcr::proc::PipedChild child;
     pcr::stream::AnyStream io;
@@ -52,19 +52,19 @@ struct StdioJsonRpcSession::Impl
     }
 };
 
-StdioJsonRpcSession::StdioJsonRpcSession(std::unique_ptr<Impl> impl) noexcept
+StdioJsonRpcTransport::StdioJsonRpcTransport(std::unique_ptr<Impl> impl) noexcept
     : impl_(std::move(impl)) {}
-StdioJsonRpcSession::StdioJsonRpcSession(StdioJsonRpcSession&&) noexcept = default;
-StdioJsonRpcSession &StdioJsonRpcSession::operator=(StdioJsonRpcSession&&) noexcept = default;
-StdioJsonRpcSession::~StdioJsonRpcSession() = default;
+StdioJsonRpcTransport::StdioJsonRpcTransport(StdioJsonRpcTransport&&) noexcept = default;
+StdioJsonRpcTransport &StdioJsonRpcTransport::operator=(StdioJsonRpcTransport&&) noexcept = default;
+StdioJsonRpcTransport::~StdioJsonRpcTransport() = default;
 
 
-std::string StdioJsonRpcSession::request(
+std::string StdioJsonRpcTransport::request(
     std::string method, 
     std::optional<std::string> params_json)
 {
     if (impl_->closed) {
-        throw std::logic_error("stdio jsonrpc session is closed");
+        throw std::logic_error("stdio jsonrpc transport is closed");
     }
 
     const std::string method_for_error = method;
@@ -90,18 +90,18 @@ std::string StdioJsonRpcSession::request(
 }
 
 
-void StdioJsonRpcSession::notify(
+void StdioJsonRpcTransport::notify(
     std::string method, 
     std::optional<std::string> params_json)
 {
     if (impl_->closed) {
-        throw std::logic_error("stdio jsonrpc session is closed");
+        throw std::logic_error("stdio jsonrpc transport is closed");
     }
     impl_->rpc.send_notification(std::move(method), std::move(params_json));
 }
 
 
-void StdioJsonRpcSession::on_request(
+void StdioJsonRpcTransport::on_request(
     std::string method, 
     pcr::jsonrpc::Dispatcher::RequestHandler handler)
 {
@@ -109,7 +109,7 @@ void StdioJsonRpcSession::on_request(
 }
 
 
-void StdioJsonRpcSession::on_notification(
+void StdioJsonRpcTransport::on_notification(
     std::string method,
     pcr::jsonrpc::Dispatcher::NotificationHandler handler)
 {
@@ -117,7 +117,7 @@ void StdioJsonRpcSession::on_notification(
 }
 
 
-void StdioJsonRpcSession::close()
+void StdioJsonRpcTransport::close()
 {
     if (impl_->closed) {
         return;
@@ -127,22 +127,22 @@ void StdioJsonRpcSession::close()
 }
 
 
-void StdioJsonRpcSession::wait()
+void StdioJsonRpcTransport::wait()
 {
     (void)impl_->child.wait();
 }
 
-bool StdioJsonRpcSession::wait_for(std::chrono::milliseconds timeout)
+bool StdioJsonRpcTransport::wait_for(std::chrono::milliseconds timeout)
 {
     return impl_->child.wait_for(timeout).has_value();
 }
 
-void StdioJsonRpcSession::terminate()
+void StdioJsonRpcTransport::terminate()
 {
     impl_->child.terminate(SIGTERM);
 }
 
-void StdioJsonRpcSession::kill()
+void StdioJsonRpcTransport::kill()
 {
 #ifdef _WIN32
     impl_->child.terminate(SIGTERM);
@@ -150,10 +150,10 @@ void StdioJsonRpcSession::kill()
     impl_->child.terminate(SIGKILL);
 #endif
 }
-StdioJsonRpcSession StdioJsonRpcSession::spawn(const StdioJsonRpcLaunchConfig &config)
+StdioJsonRpcTransport StdioJsonRpcTransport::spawn(const StdioJsonRpcLaunchConfig &config)
 {
-    return StdioJsonRpcSession(
-        std::make_unique<StdioJsonRpcSession::Impl>(
+    return StdioJsonRpcTransport(
+        std::make_unique<StdioJsonRpcTransport::Impl>(
             pcr::proc::PipedChild::spawn_inherit_stderr(to_process_spec(config))
         )
     );

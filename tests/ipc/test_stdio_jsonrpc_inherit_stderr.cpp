@@ -1,4 +1,4 @@
-#include "pcr/ipc/stdio_jsonrpc_session.h"
+#include "pcr/ipc/stdio_jsonrpc_transport.h"
 
 #include <cassert>
 #include <csignal>
@@ -41,13 +41,13 @@ int main()
     pcr::ipc::StdioJsonRpcLaunchConfig cfg;
     cfg.exe = PCR_TEST_STDERR_FLOOD_SERVER;
 
-    auto session = pcr::ipc::StdioJsonRpcSession::spawn(cfg);
+    auto transport = pcr::ipc::StdioJsonRpcTransport::spawn(cfg);
 
-    const std::string result = session.request("ping");
+    const std::string result = transport.request("ping");
     assert(result == R"({"pong":true})");
 
-    session.close();
-    session.wait();
+    transport.close();
+    transport.wait();
 
     std::cout << "test_stdio_jsonrpc_inherit_stderr: ok\n";
     return 0;

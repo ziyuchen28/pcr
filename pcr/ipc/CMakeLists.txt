@@ -1,6 +1,6 @@
 
 
-add_library(pcr_ipc_stdio_jsonrpc stdio_jsonrpc_session.cpp)
+add_library(pcr_ipc_stdio_jsonrpc stdio_jsonrpc_transport.cpp)
 add_library(pcr::ipc_stdio_jsonrpc ALIAS pcr_ipc_stdio_jsonrpc)
 
 target_include_directories(pcr_ipc_stdio_jsonrpc PUBLIC ${PCR_ROOT_DIR})
@@ -14,8 +14,8 @@ endif()
 
 
 target_link_libraries(pcr_ipc_stdio_jsonrpc
-    PRIVATE
-        pcr::proc
-    PUBLIC
-        pcr::jsonrpc
+  PRIVATE
+    pcr::proc
+  PUBLIC
+    pcr::jsonrpc
 )

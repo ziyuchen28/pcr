@@ -56,5 +56,6 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
+// StdioJsonRpcTransport spawn_stdio_jsonrpc(const StdioJsonRpcLaunchConfig &config);
 
 } // namespace pcr::ipc
