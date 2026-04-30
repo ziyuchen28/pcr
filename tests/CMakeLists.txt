@@ -27,18 +27,18 @@ target_link_libraries(pcr_test_stdio_jsonrpc_server
     pcr::stream
 )
 
-add_executable(test_stdio_jsonrpc_session
-  ipc/test_stdio_jsonrpc_session.cpp
+add_executable(test_stdio_jsonrpc_transport
+  ipc/test_stdio_jsonrpc_transport.cpp
 )
-target_link_libraries(test_stdio_jsonrpc_session
+target_link_libraries(test_stdio_jsonrpc_transport
   PRIVATE pcr::ipc_stdio_jsonrpc
 )
-target_compile_definitions(test_stdio_jsonrpc_session
+target_compile_definitions(test_stdio_jsonrpc_transport
   PRIVATE
     TEST_STDIO_JSONRPC_SERVER="$<TARGET_FILE:pcr_test_stdio_jsonrpc_server>"
 )
-add_test(NAME test_stdio_jsonrpc_session
-    COMMAND test_stdio_jsonrpc_session
+add_test(NAME test_stdio_jsonrpc_transport
+    COMMAND test_stdio_jsonrpc_transport
 )
 
 
